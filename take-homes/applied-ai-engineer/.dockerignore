@@ -1,0 +1,6 @@
+.git
+solution/.runtime
+solution/__pycache__
+solution/tests/__pycache__
+stubs/outbox
+**/*.pyc
