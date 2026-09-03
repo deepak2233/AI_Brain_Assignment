@@ -116,18 +116,27 @@ action-rate drift, duplicate-rate drift, and any dead letter.
 
 ## AI-tool disclosure
 
-I used OpenAI Codex to inspect the brief and repository, draft much of the Python
-implementation and tests, and challenge failure modes. I retained the design
-decisions, ran the code, inspected the generated queue, and iterated from
-evidence rather than accepting generated code as correct. One concrete override:
-an early duplicate rule accepted call 001's dashboard-card bug as PROJ-118 because
-both contained "dashboard." I rejected that output, required multiple strong
-behavioral anchors (or a materially higher score), and added a regression test.
-The first offline extractor also scored only 6/15; I did not report that green by
-weakening action-count checks. I corrected provenance, scope conflicts, and
-clustering until the agreed contract passed. Codex did not supply credentials,
-run the external model, or submit the PR. I can explain and modify every part of
-the final code.
+I used OpenAI Codex in ChatGPT Work Mode as the primary implementation agent. I
+provided the assignment goal and later rejected the first working prototype as
+sufficient for production, asking for explicit fallback, structured logging,
+failure recovery, production configuration checks, and comment cleanup. Codex
+inspected the repository, proposed the architecture, authored the current code,
+tests, deployment scaffolding, and documentation, and ran the reported local
+verification. I did not manually author the Python implementation before the
+baseline commit.
+
+Codex's own evaluation caught an early false duplicate between call 001 and
+PROJ-118, a first extractor that passed only 6/15 dev calls, and a dispatcher that
+could spend its retry budget in one invocation. It corrected those defects and
+added regression tests. I am not misrepresenting those tool-detected corrections
+as my own overrides. My concrete override was requiring the second production-
+hardening pass described above.
+
+The model-backed analyzer and live Jira/Slack tenants were not exercised because
+credentials were unavailable. Before submission I still need to rerun the
+documented commands myself and complete a line-by-line review; until then I
+cannot honestly claim I can explain every line. The full work split, tool errors,
+verification boundaries, and commit-history note are in `AI_USE.md`.
 
 ## Deliberate omissions and another day
 
@@ -139,4 +148,6 @@ calibrate the model across repeated trials, test the live adapters against tenan
 sandboxes, add Jira corroboration comments and Slack Block Kit, and export
 metrics/traces to the production stack. The container, Kubernetes template, safe
 rollout, recovery procedure, and honest launch blockers are in `PRODUCTION.md`.
-Approximate focused build and verification time: five hours, AI-assisted.
+The two Codex sessions were previously estimated at roughly five hours of focused
+build and automated verification. Independent line-by-line review time is not
+included because that review is not yet complete.

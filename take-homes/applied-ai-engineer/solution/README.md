@@ -3,6 +3,9 @@
 Human-gated product intake for customer-call transcripts. `scan` only stages a
 review queue. Configured Jira and Slack sinks run only after explicit approval.
 
+The exact human-versus-tool work split and verification limits are documented in
+[AI_USE.md](AI_USE.md).
+
 ## Quick start
 
 From `take-homes/applied-ai-engineer/`:
